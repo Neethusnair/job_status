@@ -20,7 +20,7 @@ jobs:
     - id: step3
       run: echo ${{ job.status}}  
     - id: step4
-      run: echo "::set-output name=${{ job.status}}"  
+      run: echo "::set-output name=test::${{ job.status}}"  
   job2:
     runs-on: ubuntu-latest
     needs: job1
