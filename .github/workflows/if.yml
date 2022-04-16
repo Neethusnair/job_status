@@ -18,8 +18,8 @@ jobs:
 
      - name: get job status
        run: |- 
-        echo "Job1_status=failure" >> $GITHUB_ENV
-        echo "Job2_status=success" >> $GITHUB_ENV
+        echo "Job1_status=success" >> $GITHUB_ENV
+        echo "Job2_status=failure" >> $GITHUB_ENV
         echo "status=success" >> $GITHUB_ENV
         #echo "::set-env name=Job1_status::${{needs.Job1.outputs.output1}}" # decripted
         # echo "::set-env name=Job2_status::${{needs.Job2.outputs.output1}}" # decripted
