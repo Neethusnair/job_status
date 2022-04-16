@@ -1,0 +1,44 @@
+name: test if statement
+
+# Triggers the workflow on api call
+on:
+  push
+    
+
+
+# A workflow run is made up of one or more jobs that can run sequentially or in parallel
+jobs:
+ Job3:
+    name: test if
+    runs-on: ubuntu-latest
+
+    steps:
+     - name: Checkout
+       uses: actions/checkout@v2
+
+     - name: get job status
+       run: |- 
+        echo "Job1_status=failure" >> $GITHUB_ENV
+        echo "Job2_status=failure" >> $GITHUB_ENV
+        echo "status=success" >> $GITHUB_ENV
+        #echo "::set-env name=Job1_status::${{needs.Job1.outputs.output1}}" # decripted
+        # echo "::set-env name=Job2_status::${{needs.Job2.outputs.output1}}" # decripted
+        # echo "::set-env name=status::success" # decripted
+ 
+    # Change status on failure.The step that creates or updates the environment variable does not have access to the new value,
+    # but all subsequent steps in a job will have access
+     - name: change status to failure 
+       #if: fromJSON( ( ${{ env.Job1_status }} == failure || {{ env.Job2_status }}  == failure ) )
+       #if: ${{ env.Job1_status }} == failure || {{ env.Job2_status }}  == failure 
+       if: failure() && ${{ env.Job1_status }} == failure || {{ env.Job2_status }}  == failure
+       #if: ${{ env.Job1_status }} == failure
+       run: |- 
+         echo "status=failure" >> $GITHUB_ENV
+         echo "${{ env.Job1_status }}"
+         echo "${{ env.Job2_status }}"
+         echo "${{ env.status }}"
+         
+     - name: get new status
+       run: |- 
+         echo "${{ env.status }}"
+
